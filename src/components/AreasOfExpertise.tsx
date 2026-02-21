@@ -22,6 +22,7 @@ export const AreasOfExpertise: React.FC<AreasOfExpertiseProps> = ({ onNext }) =>
         <div className="flex flex-col gap-2">
           <RichTextEditor
             placeholder="Describe your skills or expertise..."
+            value={expertise}
             onChange={setExpertise}
           />
         </div>
@@ -46,7 +47,6 @@ export const AreasOfExpertise: React.FC<AreasOfExpertiseProps> = ({ onNext }) =>
             }}
             disabled={!allFilled}
             onClick={() => {
-              // Ensure context is updated with current state before committing
               updateAreasOfExpertise(expertise);
               commitToPreview('areasOfExpertise');
               onNext();

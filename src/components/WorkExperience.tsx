@@ -178,7 +178,6 @@ export const WorkExperience: React.FC<WorkExperienceProps> = ({ onNext }) => {
             }}
             disabled={!allFilled}
             onClick={() => {
-              // Ensure context is updated with current state before committing
               updateWorkExperience(workList);
               commitToPreview('workExperience');
               onNext();

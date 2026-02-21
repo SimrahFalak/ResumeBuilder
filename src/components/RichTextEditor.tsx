@@ -15,7 +15,7 @@ import {
   INSERT_UNORDERED_LIST_COMMAND,
   INSERT_ORDERED_LIST_COMMAND,
 } from '@lexical/list';
-import { $createParagraphNode, $getRoot } from 'lexical';
+import { $createParagraphNode, $getRoot, $createTextNode } from 'lexical';
 
 interface RichTextEditorProps {
   placeholder?: string;
@@ -167,6 +167,27 @@ function OnChangePlugin({ onChange }: { onChange: (value: string) => void }) {
   return null;
 }
 
+function InitialValuePlugin({ value }: { value?: string }) {
+  const [editor] = useLexicalComposerContext();
+  const [initialized, setInitialized] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!initialized && value) {
+      editor.update(() => {
+        const root = $getRoot();
+        root.clear();
+        const paragraph = $createParagraphNode();
+        const textNode = $createTextNode(value);
+        paragraph.append(textNode);
+        root.append(paragraph);
+      });
+      setInitialized(true);
+    }
+  }, [editor, value, initialized]);
+
+  return null;
+}
+
 function DeleteButton({ onClear }: { onClear: () => void }) {
   const [editor] = useLexicalComposerContext();
 
@@ -217,6 +238,7 @@ function DeleteButton({ onClear }: { onClear: () => void }) {
 
 export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   placeholder = 'Write your message...',
+  value,
   onChange,
 }) => {
   const initialConfig = {
@@ -293,6 +315,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         </div>
         <HistoryPlugin />
         <ListPlugin />
+        <InitialValuePlugin value={value} />
         {onChange && <OnChangePlugin onChange={onChange} />}
       </LexicalComposer>
     </div>

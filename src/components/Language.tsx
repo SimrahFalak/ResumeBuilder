@@ -164,7 +164,6 @@ export const Language: React.FC<LanguageProps> = ({ onNext }) => {
             }}
             disabled={!allFilled}
             onClick={() => {
-              // Ensure context is updated with current state before committing
               updateLanguages(languageList);
               commitToPreview('languages');
               onNext();

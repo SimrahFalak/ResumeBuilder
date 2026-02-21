@@ -23,18 +23,65 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ onNext }) => {
     website: formData.personalInfo.website,
   });
 
+  // State for validation errors
+  const [errors, setErrors] = useState({
+    email: '',
+    phone: '',
+  });
+
   // State for photo upload
   const [photo, setPhoto] = useState<string | null>(formData.personalInfo.photo);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  // Validation functions
+  const validateEmail = (email: string): string => {
+    if (!email) return '';
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email) ? '' : 'Please enter a valid email address';
+  };
+
+  const validatePhone = (phone: string): string => {
+    if (!phone) return '';
+    const phoneRegex = /^[\d\s\-\(\)\+]+$/;
+    const hasEnoughDigits = phone.replace(/\D/g, '').length >= 10;
+    if (!phoneRegex.test(phone)) {
+      return 'Please enter a valid phone number';
+    }
+    if (!hasEnoughDigits) {
+      return 'Phone number must have at least 10 digits';
+    }
+    return '';
+  };
+
+  // Handle email change with validation
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setFields(f => ({ ...f, email: value }));
+    setErrors(prev => ({ ...prev, email: validateEmail(value) }));
+  };
+
+  // Handle phone change with validation
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Only allow digits, spaces, dashes, parentheses, and plus sign
+    const filteredValue = value.replace(/[^0-9\s\-\(\)\+]/g, '');
+    setFields(f => ({ ...f, phone: filteredValue }));
+    setErrors(prev => ({ ...prev, phone: validatePhone(filteredValue) }));
+  };
 
   // Update context whenever fields change
   useEffect(() => {
     updatePersonalInfo({ ...fields, photo });
   }, [fields, photo]);
 
-  // Check if all required fields are filled
   const allFilled =
-    fields.name && fields.job && fields.email && fields.phone && fields.address;
+    fields.name && 
+    fields.job && 
+    fields.email && 
+    fields.phone && 
+    fields.address &&
+    !errors.email &&
+    !errors.phone;
 
   return (
     <div
@@ -145,8 +192,8 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ onNext }) => {
         </div>
 
         <div className="grid grid-cols-2 gap-6">
-          <Input label="Email address" type="email" placeholder="johndoe@email.com" required value={fields.email} onChange={e => setFields(f => ({ ...f, email: e.target.value }))} />
-          <Input label="Phone number" placeholder="(123) 456-7890" required value={fields.phone} onChange={e => setFields(f => ({ ...f, phone: e.target.value }))} />
+          <Input label="Email address" type="email" placeholder="johndoe@email.com" required value={fields.email} onChange={handleEmailChange} error={errors.email} />
+          <Input label="Phone number" placeholder="(123) 456-7890" required value={fields.phone} onChange={handlePhoneChange} error={errors.phone} />
         </div>
 
         <div className="grid grid-cols-2 gap-6">
@@ -207,13 +254,13 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ onNext }) => {
         </div>
 
         <div className="grid grid-cols-2 gap-6">
-          <Input label="LinkedIn" placeholder="linkedin.com/in/johndoe" value={fields.linkedin} onChange={e => setFields(f => ({ ...f, linkedin: e.target.value }))} />
-          <Input label="Indeed" placeholder="indeed.com/profile/johndoe" value={fields.indeed} onChange={e => setFields(f => ({ ...f, indeed: e.target.value }))} />
+          <Input label="LinkedIn" type='url' placeholder="linkedin.com/in/johndoe" value={fields.linkedin} onChange={e => setFields(f => ({ ...f, linkedin: e.target.value }))} />
+          <Input label="Indeed" type='url' placeholder="indeed.com/profile/johndoe" value={fields.indeed} onChange={e => setFields(f => ({ ...f, indeed: e.target.value }))} />
          
         </div>
         
         <div  className="grid grid-cols-2 gap-6">
-        <Input label="Behance" placeholder="behance.net/johndoe" value={fields.behance} onChange={e => setFields(f => ({ ...f, behance: e.target.value }))} />
+        <Input label="Behance" type='url' placeholder="behance.net/johndoe" value={fields.behance} onChange={e => setFields(f => ({ ...f, behance: e.target.value }))} />
         <Input label="Website" placeholder="johndoe.com" value={fields.website} onChange={e => setFields(f => ({ ...f, website: e.target.value }))} />
         </div>
         
@@ -238,7 +285,6 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ onNext }) => {
           }}
           disabled={!allFilled}
           onClick={() => {
-            // Ensure context is updated with current state before committing
             updatePersonalInfo({ ...fields, photo });
             commitToPreview('personalInfo');
             onNext();

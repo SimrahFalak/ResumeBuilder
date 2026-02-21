@@ -54,7 +54,6 @@ export const CustomDropdown: React.FC<CustomDropdownProps> = ({
         <span className="font-medium text-sm text-text-primary leading-5 tracking-[-0.07px]">
           {label}
         </span>
-        {/* Only show asterisk if label does not already include it */}
         {required && typeof label === 'string' && !label.includes('*') && (
           <span className="font-normal text-sm text-destructive leading-5 tracking-[-0.07px]">
             *

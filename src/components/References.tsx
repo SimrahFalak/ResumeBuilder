@@ -16,6 +16,29 @@ export const References: React.FC<ReferencesProps> = ({ onNext }) => {
       : [{ id: 0, name: '', title: '', email: '', phone: '' }]
   );
 
+  // State for validation errors - keyed by entry id
+  const [errors, setErrors] = React.useState<{ [id: number]: { email: string; phone: string } }>({});
+
+  // Validation functions
+  const validateEmail = (email: string): string => {
+    if (!email) return '';
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email) ? '' : 'Please enter a valid email address';
+  };
+
+  const validatePhone = (phone: string): string => {
+    if (!phone) return '';
+    const phoneRegex = /^[\d\s\-\(\)\+]+$/;
+    const hasEnoughDigits = phone.replace(/\D/g, '').length >= 10;
+    if (!phoneRegex.test(phone)) {
+      return 'Please enter a valid phone number';
+    }
+    if (!hasEnoughDigits) {
+      return 'Phone number must have at least 10 digits';
+    }
+    return '';
+  };
+
   useEffect(() => {
     const mappedData = referencesList.map(r => ({
       id: r.id,
@@ -35,17 +58,46 @@ export const References: React.FC<ReferencesProps> = ({ onNext }) => {
     );
   };
 
+  // Handle email change with validation
+  const handleEmailChange = (id: number, value: string) => {
+    handleChange(id, 'email', value);
+    setErrors(prev => ({
+      ...prev,
+      [id]: { ...prev[id], email: validateEmail(value) }
+    }));
+  };
+
+  // Handle phone change with validation and input filtering
+  const handlePhoneChange = (id: number, value: string) => {
+    // Only allow digits, spaces, dashes, parentheses, and plus sign
+    const filteredValue = value.replace(/[^0-9\s\-\(\)\+]/g, '');
+    handleChange(id, 'phone', filteredValue);
+    setErrors(prev => ({
+      ...prev,
+      [id]: { ...prev[id], phone: validatePhone(filteredValue) }
+    }));
+  };
+
   const handleAdd = () => {
     setReferencesList(list => [...list, { id: nextId, name: '', title: '', email: '', phone: '' }]);
+    setErrors(prev => ({ ...prev, [nextId]: { email: '', phone: '' } }));
     setNextId(nextId + 1);
   };
 
   const handleDelete = (id: number) => {
     setReferencesList(list => list.filter(entry => entry.id !== id));
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      delete newErrors[id];
+      return newErrors;
+    });
   };
 
   const allFilled = referencesList.every(
-    entry => entry.name && entry.title && entry.email && entry.phone
+    entry => {
+      const entryErrors = errors[entry.id] || { email: '', phone: '' };
+      return entry.name && entry.title && entry.email && entry.phone && !entryErrors.email && !entryErrors.phone;
+    }
   );
 
   return (
@@ -73,7 +125,8 @@ export const References: React.FC<ReferencesProps> = ({ onNext }) => {
               type="email"
               required
               value={entry.email}
-              onChange={e => handleChange(entry.id, 'email', e.target.value)}
+              onChange={e => handleEmailChange(entry.id, e.target.value)}
+              error={errors[entry.id]?.email}
             />
             <Input
               label="Phone number"
@@ -81,7 +134,8 @@ export const References: React.FC<ReferencesProps> = ({ onNext }) => {
               type="tel"
               required
               value={entry.phone}
-              onChange={e => handleChange(entry.id, 'phone', e.target.value)}
+              onChange={e => handlePhoneChange(entry.id, e.target.value)}
+              error={errors[entry.id]?.phone}
             />
             {referencesList.length > 1 && (
               <>
@@ -170,7 +224,6 @@ export const References: React.FC<ReferencesProps> = ({ onNext }) => {
             }}
             disabled={!allFilled}
             onClick={() => {
-              // Ensure context is updated with current state before committing
               const mappedData = referencesList.map(r => ({
                 id: r.id,
                 name: r.name,

@@ -176,7 +176,6 @@ export const Education: React.FC<EducationProps> = ({ onNext }) => {
             }}
             disabled={!allFilled}
             onClick={() => {
-              // Ensure context is updated with current state before committing
               const mappedData = educationList.map(e => ({
                 id: e.id,
                 institution: e.school,

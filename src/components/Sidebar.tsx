@@ -74,16 +74,14 @@ const sections = [
 export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange }) => {
     return (
         <div
-            className="flex flex-col items-center gap-6 flex-shrink-0 m-5"
+            className="flex xl:flex-col items-center gap-6 m-5 w-[96%] xl:w-[272px] h-auto xl:h-[896px]"
             style={{
-                width: '272px',
-                height: '896px',
                 borderRadius: '10px',
                 border: '1px solid var(--border-action-normal, #DEE0E3)',
                 background: '#FFF',
             }}
         >
-            <div className="p-6 border-b border-gray-200">
+            <div className="hidden xl:block p-6 border-b border-gray-200">
                 <h2
                     className="mb-2 text-base font-medium leading-normal"
 
@@ -101,7 +99,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
                 </p>
             </div>
 
-            <nav className=" grid grid-cols-2  justify-items-center gap-1">
+            <nav className="flex flex-row flex-wrap justify-center gap-1 w-full px-2 xl:grid xl:grid-cols-2 xl:justify-items-center xl:px-0">
                 {sections.map((section) => {
                     const isActive = activeSection === section.id;
                     return (

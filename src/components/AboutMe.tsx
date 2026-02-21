@@ -23,6 +23,7 @@ export const AboutMe: React.FC<AboutMeProps> = ({ onNext }) => {
           
           <RichTextEditor
             placeholder="Write your message..."
+            value={about}
             onChange={setAbout}
           />
         </div>
@@ -47,7 +48,6 @@ export const AboutMe: React.FC<AboutMeProps> = ({ onNext }) => {
             }}
             disabled={!allFilled}
             onClick={() => {
-              // Ensure context is updated with current state before committing
               updateAboutMe(about);
               commitToPreview('aboutMe');
               onNext();

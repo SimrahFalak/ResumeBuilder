@@ -5,7 +5,7 @@ export const TemplateSelector: React.FC = () => {
   const { previewData } = useFormContext();
   return (
     <div
-      className="flex flex-col items-start m-5"
+      className="flex flex-col items-start mx-5 xl:m-5"
       style={{
         width: '450px',
         height: '896px',

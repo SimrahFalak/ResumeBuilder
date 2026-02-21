@@ -59,7 +59,7 @@ export const Input: React.FC<InputProps> = ({
           }
           style={{
             padding: '10px 12px',
-            border: '1px solid #DEE0E3',
+            border: error ? '1px solid #E6483D' : '1px solid #DEE0E3',
             background: '#FFF',
             fontFamily: 'Montserrat, sans-serif',
             fontSize: 14,

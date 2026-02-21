@@ -60,33 +60,35 @@ function App() {
       <div className="flex flex-col h-screen">
         <Header />
         
-        <div className="flex flex-1">
+        <div className="flex flex-1 flex-col xl:flex-row">
           <Sidebar activeSection={activeSection} onSectionChange={setActiveSection} />
-          
-          <main className="flex-1 my-5 bg-white rounded-xl shadow-sm overflow-y-auto">
-            <div className="max-w-4xl mx-auto ">
-                <div className="p-6 border-b border-gray-200">
-                  <h2
-                      className="mb-2 text-base font-medium leading-normal"
 
-                  >
-                      {sectionTitles[activeSection as keyof typeof sectionTitles]}
-                  </h2>
-                  <p
-                      className="text-sm font-normal leading-normal"
-                      style={{
-                          color: 'var(--text-base-secondary, rgba(15, 19, 36, 0.60))',
-                      }}
-                  >
-                      Fill details here
-                  </p>
+          <div className="flex flex-1 flex-row overflow-hidden">
+            <main className="flex-1 ml-5 xl:ml-0 xl:my-5 bg-white rounded-xl shadow-sm overflow-y-auto" style={{ height: '896px' }}>
+              <div className="max-w-4xl mx-auto ">
+                  <div className="p-6 border-b border-gray-200">
+                    <h2
+                        className="mb-2 text-base font-medium leading-normal"
+
+                    >
+                        {sectionTitles[activeSection as keyof typeof sectionTitles]}
+                    </h2>
+                    <p
+                        className="text-sm font-normal leading-normal"
+                        style={{
+                            color: 'var(--text-base-secondary, rgba(15, 19, 36, 0.60))',
+                        }}
+                    >
+                        Fill details here
+                    </p>
+                </div>
+                
+                {renderSection()}
               </div>
-              
-              {renderSection()}
-            </div>
-          </main>
-          
-          <TemplateSelector />
+            </main>
+            
+            <TemplateSelector />
+          </div>
         </div>
       </div>
     </FormProvider>
