@@ -1,24 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input } from './Input';
 import { Button } from './Button';
+import { useFormContext } from '../contexts/FormContext';
 
-export const PersonalInfo = () => {
+interface PersonalInfoProps {
+  onNext: () => void;
+}
+
+export const PersonalInfo: React.FC<PersonalInfoProps> = ({ onNext }) => {
+  const { formData, updatePersonalInfo } = useFormContext();
+  
   // State for all fields
   const [fields, setFields] = useState({
-    name: '',
-    job: '',
-    email: '',
-    phone: '',
-    address: '',
-    linkedin: '',
-    indeed: '',
-    behance: '',
-    website: '',
+    name: formData.personalInfo.name,
+    job: formData.personalInfo.job,
+    email: formData.personalInfo.email,
+    phone: formData.personalInfo.phone,
+    address: formData.personalInfo.address,
+    linkedin: formData.personalInfo.linkedin,
+    indeed: formData.personalInfo.indeed,
+    behance: formData.personalInfo.behance,
+    website: formData.personalInfo.website,
   });
 
   // State for photo upload
-  const [photo, setPhoto] = useState<string | null>(null);
+  const [photo, setPhoto] = useState<string | null>(formData.personalInfo.photo);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  // Update context whenever fields change
+  useEffect(() => {
+    updatePersonalInfo({ ...fields, photo });
+  }, [fields, photo]);
 
   // Check if all required fields are filled
   const allFilled =
@@ -224,6 +236,7 @@ export const PersonalInfo = () => {
             borderRadius: 12,
           }}
           disabled={!allFilled}
+          onClick={onNext}
         >
           Next
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" style={{ marginLeft: 6 }}>

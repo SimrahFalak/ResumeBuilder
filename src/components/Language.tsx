@@ -1,9 +1,15 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CustomDropdown } from './CustomDropdown';
 import { Button } from './Button';
+import { useFormContext } from '../contexts/FormContext';
 
-export const Language: React.FC = () => {
+interface LanguageProps {
+  onNext: () => void;
+}
+
+export const Language: React.FC<LanguageProps> = ({ onNext }) => {
+  const { formData, updateLanguages } = useFormContext();
   const languageOptions = [
     { value: 'english', label: 'English' },
     { value: 'spanish', label: 'Spanish' },
@@ -20,10 +26,16 @@ export const Language: React.FC = () => {
     { value: 'excellent', label: 'Excellent' },
   ];
 
-  const [nextId, setNextId] = React.useState(1);
-  const [languageList, setLanguageList] = React.useState([
-    { id: 0, language: '', proficiency: '' }
-  ]);
+  const [nextId, setNextId] = React.useState(formData.languages.length > 0 ? formData.languages.length : 1);
+  const [languageList, setLanguageList] = React.useState(
+    formData.languages.length > 0
+      ? formData.languages
+      : [{ id: 0, language: '', proficiency: '' }]
+  );
+
+  useEffect(() => {
+    updateLanguages(languageList);
+  }, [languageList]);
 
   const handleChange = (id: number, key: string, value: string) => {
     setLanguageList(list =>
@@ -150,6 +162,7 @@ export const Language: React.FC = () => {
               borderRadius: 12,
             }}
             disabled={!allFilled}
+            onClick={onNext}
           >
             Next
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" style={{ marginLeft: 6 }}>

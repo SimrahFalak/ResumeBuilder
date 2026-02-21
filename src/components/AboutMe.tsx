@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from './Button';
 import { RichTextEditor } from './RichTextEditor';
+import { useFormContext } from '../contexts/FormContext';
 
-export const AboutMe: React.FC = () => {
-  // Simulate allFilled for demo; replace with actual validation if needed
-  const [about, setAbout] = React.useState('');
+interface AboutMeProps {
+  onNext: () => void;
+}
+
+export const AboutMe: React.FC<AboutMeProps> = ({ onNext }) => {
+  const { formData, updateAboutMe } = useFormContext();
+  const [about, setAbout] = React.useState(formData.aboutMe);
+  
+  useEffect(() => {
+    updateAboutMe(about);
+  }, [about]);
+  
   const allFilled = about.trim().length > 0;
   return (
     <div className="bg-white flex flex-col gap-6 w-full mt-5">
@@ -35,6 +45,7 @@ export const AboutMe: React.FC = () => {
               borderRadius: 12,
             }}
             disabled={!allFilled}
+            onClick={onNext}
           >
             Next
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" style={{ marginLeft: 6 }}>

@@ -9,6 +9,7 @@ import { Language } from './components/Language';
 import { WorkExperience } from './components/WorkExperience';
 import { AreasOfExpertise } from './components/AreasOfExpertise';
 import { References } from './components/References';
+import { FormProvider } from './contexts/FormContext';
 import './App.css';
 
 function App() {
@@ -24,60 +25,71 @@ function App() {
     'references': 'References',
   };
 
+  const sections = ['personal-info', 'about-me', 'education', 'language', 'work-experience', 'areas-of-expertise', 'references'];
+
+  const goToNextSection = () => {
+    const currentIndex = sections.indexOf(activeSection);
+    if (currentIndex < sections.length - 1) {
+      setActiveSection(sections[currentIndex + 1]);
+    }
+  };
+
   const renderSection = () => {
     switch (activeSection) {
       case 'personal-info':
-        return <PersonalInfo />;
+        return <PersonalInfo onNext={goToNextSection} />;
       case 'about-me':
-        return <AboutMe />;
+        return <AboutMe onNext={goToNextSection} />;
       case 'education':
-        return <Education />;
+        return <Education onNext={goToNextSection} />;
       case 'language':
-        return <Language />;
+        return <Language onNext={goToNextSection} />;
       case 'work-experience':
-        return <WorkExperience />;
+        return <WorkExperience onNext={goToNextSection} />;
       case 'areas-of-expertise':
-        return <AreasOfExpertise />;
+        return <AreasOfExpertise onNext={goToNextSection} />;
       case 'references':
-        return <References />;
+        return <References onNext={goToNextSection} />;
       default:
-        return <PersonalInfo />;
+        return <PersonalInfo onNext={goToNextSection} />;
     }
   };
 
   return (
-    <div className="flex flex-col h-screen">
-      <Header />
-      
-      <div className="flex flex-1">
-        <Sidebar activeSection={activeSection} onSectionChange={setActiveSection} />
+    <FormProvider>
+      <div className="flex flex-col h-screen">
+        <Header />
         
-        <main className="flex-1 my-5 bg-white rounded-xl shadow-sm overflow-y-auto">
-          <div className="max-w-4xl mx-auto ">
-              <div className="p-6 border-b border-gray-200">
-                <h2
-                    className="mb-2 text-base font-medium leading-normal"
+        <div className="flex flex-1">
+          <Sidebar activeSection={activeSection} onSectionChange={setActiveSection} />
+          
+          <main className="flex-1 my-5 bg-white rounded-xl shadow-sm overflow-y-auto">
+            <div className="max-w-4xl mx-auto ">
+                <div className="p-6 border-b border-gray-200">
+                  <h2
+                      className="mb-2 text-base font-medium leading-normal"
 
-                >
-                    {sectionTitles[activeSection as keyof typeof sectionTitles]}
-                </h2>
-                <p
-                    className="text-sm font-normal leading-normal"
-                    style={{
-                        color: 'var(--text-base-secondary, rgba(15, 19, 36, 0.60))',
-                    }}
-                >
-                    Fill details here
-                </p>
+                  >
+                      {sectionTitles[activeSection as keyof typeof sectionTitles]}
+                  </h2>
+                  <p
+                      className="text-sm font-normal leading-normal"
+                      style={{
+                          color: 'var(--text-base-secondary, rgba(15, 19, 36, 0.60))',
+                      }}
+                  >
+                      Fill details here
+                  </p>
+              </div>
+              
+              {renderSection()}
             </div>
-            
-            {renderSection()}
-          </div>
-        </main>
-        
-        <TemplateSelector />
+          </main>
+          
+          <TemplateSelector />
+        </div>
       </div>
-    </div>
+    </FormProvider>
   );
 }
 

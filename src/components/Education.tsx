@@ -1,19 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Input } from './Input';
 import { Button } from './Button';
 import { CustomDropdown } from './CustomDropdown';
+import { useFormContext } from '../contexts/FormContext';
 
-export const Education: React.FC = () => {
+interface EducationProps {
+  onNext: () => void;
+}
+
+export const Education: React.FC<EducationProps> = ({ onNext }) => {
+  const { formData, updateEducation } = useFormContext();
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - 1979 + 1 }, (_, i) => ({
     label: (1980 + i).toString(),
     value: (1980 + i).toString(),
   }));
 
-  const [nextId, setNextId] = React.useState(1);
-  const [educationList, setEducationList] = React.useState([
-    { id: 0, level: '', field: '', school: '', year: '' }
-  ]);
+  const [nextId, setNextId] = React.useState(formData.education.length > 0 ? formData.education.length : 1);
+  const [educationList, setEducationList] = React.useState(
+    formData.education.length > 0
+      ? formData.education.map(e => ({ ...e, level: e.degree.split(' - ')[0] || '', field: e.degree.split(' - ')[1] || '', school: e.institution }))
+      : [{ id: 0, level: '', field: '', school: '', year: '' }]
+  );
+
+  useEffect(() => {
+    const mappedData = educationList.map(e => ({
+      id: e.id,
+      institution: e.school,
+      degree: `${e.level} - ${e.field}`,
+      year: e.year
+    }));
+    updateEducation(mappedData);
+  }, [educationList]);
 
   const handleChange = (id: number, key: string, value: string) => {
     setEducationList(list => 
@@ -156,6 +174,7 @@ export const Education: React.FC = () => {
               borderRadius: 12,
             }}
             disabled={!allFilled}
+            onClick={onNext}
           >
             Next
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" style={{ marginLeft: 6 }}>

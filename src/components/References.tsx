@@ -1,12 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Input } from './Input';
 import { Button } from './Button';
+import { useFormContext } from '../contexts/FormContext';
 
-export const References: React.FC = () => {
-  const [nextId, setNextId] = React.useState(1);
-  const [referencesList, setReferencesList] = React.useState([
-    { id: 0, name: '', title: '', email: '', phone: '' }
-  ]);
+interface ReferencesProps {
+  onNext: () => void;
+}
+
+export const References: React.FC<ReferencesProps> = ({ onNext }) => {
+  const { formData, updateReferences } = useFormContext();
+  const [nextId, setNextId] = React.useState(formData.references.length > 0 ? formData.references.length : 1);
+  const [referencesList, setReferencesList] = React.useState(
+    formData.references.length > 0
+      ? formData.references.map(r => ({ ...r, title: r.position }))
+      : [{ id: 0, name: '', title: '', email: '', phone: '' }]
+  );
+
+  useEffect(() => {
+    const mappedData = referencesList.map(r => ({
+      id: r.id,
+      name: r.name,
+      position: r.title,
+      phone: r.phone,
+      email: r.email
+    }));
+    updateReferences(mappedData);
+  }, [referencesList]);
 
   const handleChange = (id: number, key: string, value: string) => {
     setReferencesList(list =>
@@ -149,6 +168,7 @@ export const References: React.FC = () => {
               borderRadius: 12,
             }}
             disabled={!allFilled}
+            onClick={onNext}
           >
             Save
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" style={{ marginLeft: 6 }}>

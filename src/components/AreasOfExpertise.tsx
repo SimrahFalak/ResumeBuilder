@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from './Button';
 import { RichTextEditor } from './RichTextEditor';
+import { useFormContext } from '../contexts/FormContext';
 
-export const AreasOfExpertise: React.FC = () => {
-  const [expertise, setExpertise] = React.useState('');
+interface AreasOfExpertiseProps {
+  onNext: () => void;
+}
+
+export const AreasOfExpertise: React.FC<AreasOfExpertiseProps> = ({ onNext }) => {
+  const { formData, updateAreasOfExpertise } = useFormContext();
+  const [expertise, setExpertise] = React.useState(formData.areasOfExpertise);
+  
+  useEffect(() => {
+    updateAreasOfExpertise(expertise);
+  }, [expertise]);
+  
   const allFilled = expertise.trim().length > 0;
   return (
     <div className="bg-white flex flex-col mt-5 gap-6 w-full">
@@ -33,6 +44,7 @@ export const AreasOfExpertise: React.FC = () => {
               borderRadius: 12,
             }}
             disabled={!allFilled}
+            onClick={onNext}
           >
             Next
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" style={{ marginLeft: 6 }}>

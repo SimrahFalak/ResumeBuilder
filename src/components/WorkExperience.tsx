@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Input } from './Input';
 import { DateInput } from './DateInput';
 import { Checkbox } from './Checkbox';
 import { Button } from './Button';
+import { useFormContext } from '../contexts/FormContext';
 
-export const WorkExperience: React.FC = () => {
-  const [nextId, setNextId] = React.useState(1);
-  const [workList, setWorkList] = React.useState([
-    { id: 0, jobTitle: '', designation: '', company: '', from: '', to: '', onwards: false }
-  ]);
+interface WorkExperienceProps {
+  onNext: () => void;
+}
+
+export const WorkExperience: React.FC<WorkExperienceProps> = ({ onNext }) => {
+  const { formData, updateWorkExperience } = useFormContext();
+  const [nextId, setNextId] = React.useState(formData.workExperience.length > 0 ? formData.workExperience.length : 1);
+  const [workList, setWorkList] = React.useState(
+    formData.workExperience.length > 0 
+      ? formData.workExperience 
+      : [{ id: 0, jobTitle: '', designation: '', company: '', from: '', to: '', onwards: false }]
+  );
+
+  useEffect(() => {
+    updateWorkExperience(workList);
+  }, [workList]);
 
   const handleChange = (id: number, key: string, value: string | boolean) => {
     setWorkList(list =>
@@ -164,6 +176,7 @@ export const WorkExperience: React.FC = () => {
               borderRadius: 12,
             }}
             disabled={!allFilled}
+            onClick={onNext}
           >
             Next
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" style={{ marginLeft: 6 }}>

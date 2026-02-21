@@ -1,6 +1,8 @@
 import React from 'react';
+import { useFormContext } from '../contexts/FormContext';
 
 export const TemplateSelector: React.FC = () => {
+  const { formData } = useFormContext();
   return (
     <div
       className="flex flex-col items-start m-5"
@@ -62,15 +64,26 @@ export const TemplateSelector: React.FC = () => {
                       <path fillRule="evenodd" clipRule="evenodd" d="M39.1877 1.42499C60.043 1.42499 76.9497 18.3315 76.9497 39.1869C76.9497 60.0424 60.043 76.9489 39.1877 76.9489H1.42578V39.1869C1.42578 18.3315 18.3324 1.42499 39.1877 1.42499Z" />
                     </clipPath>
                   </defs>
-                  <image 
-                    href="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" 
-                    x="0" 
-                    y="0" 
-                    width="79" 
-                    height="79" 
-                    clipPath="url(#profile-shape)"
-                    preserveAspectRatio="xMidYMid slice"
-                  />
+                  {formData.personalInfo.photo ? (
+                    <image 
+                      href={formData.personalInfo.photo}
+                      x="0" 
+                      y="0" 
+                      width="79" 
+                      height="79" 
+                      clipPath="url(#profile-shape)"
+                      preserveAspectRatio="xMidYMid slice"
+                    />
+                  ) : (
+                    <rect 
+                      x="0" 
+                      y="0" 
+                      width="79" 
+                      height="79" 
+                      clipPath="url(#profile-shape)"
+                      fill="#E5E7EB"
+                    />
+                  )}
                   <path fillRule="evenodd" clipRule="evenodd" d="M39.1877 1.42499C60.043 1.42499 76.9497 18.3315 76.9497 39.1869C76.9497 60.0424 60.043 76.9489 39.1877 76.9489H1.42578V39.1869C1.42578 18.3315 18.3324 1.42499 39.1877 1.42499Z" fill="none" stroke="white" strokeWidth="2.84996" />
                 </svg>
 
@@ -98,27 +111,33 @@ export const TemplateSelector: React.FC = () => {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center',  marginBottom: '8px' }}>
                   <span style={{
-                    width: '12px', height: '12px', background: '#FFF', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '8px', flexShrink: 0
+                    width: '12px', height: '12px', background: formData.personalInfo.phone ? '#FFF' : 'transparent', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '8px', flexShrink: 0
                   }}>
-                    <img src="/icons/phone.svg" alt="Phone" style={{ width: '8px', height: '8px', display: 'block' }} />
+                    {formData.personalInfo.phone && <img src="/icons/phone.svg" alt="Phone" style={{ width: '8px', height: '8px', display: 'block' }} />}
                   </span>
-                  <span style={{ color: '#FFF', fontSize: '6px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal', fontFamily: 'inherit' }}>+92 31 2024889</span>
+                  <span style={{ color: '#FFF', fontSize: '6px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal', fontFamily: 'inherit' }}>
+                    {formData.personalInfo.phone || '\u00A0'}
+                  </span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
                   <span style={{
-                    width: '12px', height: '12px', background: '#FFF', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '8px', flexShrink: 0
+                    width: '12px', height: '12px', background: formData.personalInfo.email ? '#FFF' : 'transparent', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '8px', flexShrink: 0
                   }}>
-                    <img src="/icons/web.svg" alt="Website" style={{ width: '8px', height: '8px', display: 'block' }} />
+                    {formData.personalInfo.email && <img src="/icons/web.svg" alt="Website" style={{ width: '8px', height: '8px', display: 'block' }} />}
                   </span>
-                  <span style={{ color: '#FFF', fontSize: '6px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal', fontFamily: 'inherit' }}>bobbrains@gmail.com</span>
+                  <span style={{ color: '#FFF', fontSize: '6px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal', fontFamily: 'inherit' }}>
+                    {formData.personalInfo.email || '\u00A0'}
+                  </span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center',  marginBottom: '8px' }}>
                   <span style={{
-                    width: '12px', height: '12px', background: '#FFF', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '8px', flexShrink: 0
+                    width: '12px', height: '12px', background: formData.personalInfo.address ? '#FFF' : 'transparent', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '8px', flexShrink: 0
                   }}>
-                    <img src="/icons/location.svg" alt="Address" style={{ width: '8px', height: '8px', display: 'block' }} />
+                    {formData.personalInfo.address && <img src="/icons/location.svg" alt="Address" style={{ width: '8px', height: '8px', display: 'block' }} />}
                   </span>
-                  <span style={{ color: '#FFF', fontSize: '6px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal', fontFamily: 'inherit' }}>769 Prudence Street Lincoln Park, MI 48146</span>
+                  <span style={{ color: '#FFF', fontSize: '6px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal', fontFamily: 'inherit' }}>
+                    {formData.personalInfo.address || '\u00A0'}
+                  </span>
                 </div>
 
                 {/* Dashed separator line */}
@@ -152,21 +171,46 @@ export const TemplateSelector: React.FC = () => {
                 </div>
 
                 {/* Reference List */}
-                <div className="mb-2">
-                  <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }} >
-                    Darwin B. Magana <span style={{ color: ' rgba(255, 255, 255, 0.50)', fontWeight: 400 }}>(Manager)</span>
-                  </div>
-                  <div style={{ color: '#A1A1A1', fontSize: '6px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal', fontFamily: 'inherit' }}>Phone number: <span style={{ color: '#FFF', fontWeight: 400 }}>+92 3658425225</span></div>
-
-                  <div style={{ color: '#A1A1A1', fontSize: '6px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal', fontFamily: 'inherit' }}>Email: <span style={{ color: '#FFF', fontWeight: 400 }}>drawinbm@gmail.com</span></div>
-                </div>
-                <div className="mb-2">
-                  <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }} >
-                    Robert J. Belvin <span style={{ color: ' rgba(255, 255, 255, 0.50)', fontWeight: 400 }}>(Manager)</span>
-                  </div>
-                  <div style={{ color: '#A1A1A1', fontSize: '6px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal', fontFamily: 'inherit' }}>Phone number: <span style={{ color: '#FFF', fontWeight: 400 }}>+92 3658425225</span></div>
-                  <div style={{ color: '#A1A1A1', fontSize: '6px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal', fontFamily: 'inherit' }}>Email: <span style={{ color: '#FFF', fontWeight: 400 }}>robertojb@gmail.com</span></div>
-                </div>
+                {formData.references.length > 0 ? (
+                  formData.references.slice(0, 2).map((ref, index) => (
+                    <div key={index} className="mb-2">
+                      <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }}>
+                        {ref.name || '\u00A0'} {ref.position && <span style={{ color: ' rgba(255, 255, 255, 0.50)', fontWeight: 400 }}>({ref.position})</span>}
+                      </div>
+                      <div style={{ color: '#A1A1A1', fontSize: '6px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal', fontFamily: 'inherit' }}>
+                        Phone number: <span style={{ color: '#FFF', fontWeight: 400 }}>{ref.phone || '\u00A0'}</span>
+                      </div>
+                      <div style={{ color: '#A1A1A1', fontSize: '6px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal', fontFamily: 'inherit' }}>
+                        Email: <span style={{ color: '#FFF', fontWeight: 400 }}>{ref.email || '\u00A0'}</span>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <>
+                    <div className="mb-2">
+                      <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }}>
+                        {'\u00A0'}
+                      </div>
+                      <div style={{ color: '#A1A1A1', fontSize: '6px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal', fontFamily: 'inherit' }}>
+                        <span style={{ color: '#FFF', fontWeight: 400 }}>{'\u00A0'}</span>
+                      </div>
+                      <div style={{ color: '#A1A1A1', fontSize: '6px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal', fontFamily: 'inherit' }}>
+                       <span style={{ color: '#FFF', fontWeight: 400 }}>{'\u00A0'}</span>
+                      </div>
+                    </div>
+                    <div className="mb-2">
+                      <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }}>
+                        {'\u00A0'}
+                      </div>
+                      <div style={{ color: '#A1A1A1', fontSize: '6px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal', fontFamily: 'inherit' }}>
+                       <span style={{ color: '#FFF', fontWeight: 400 }}>{'\u00A0'}</span>
+                      </div>
+                      <div style={{ color: '#A1A1A1', fontSize: '6px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal', fontFamily: 'inherit' }}>
+                      <span style={{ color: '#FFF', fontWeight: 400 }}>{'\u00A0'}</span>
+                      </div>
+                    </div>
+                  </>
+                )}
 
 
                  {/* Dashed separator line */}
@@ -196,20 +240,28 @@ export const TemplateSelector: React.FC = () => {
                   </span>
                 </div>
                 <div className="mb-2">
-                  <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }} className='mb-1'>LinkedIn URL</div>
-                  <div style={{ color: '#FFF', fontSize: '5px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal' }}>www.linkedin.com/webbobbrains</div>
+                  <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }} className='mb-1'>{formData.personalInfo.linkedin ? 'LinkedIn URL' : '\u00A0'}</div>
+                  <div style={{ color: '#FFF', fontSize: '5px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal' }}>
+                    {formData.personalInfo.linkedin || '\u00A0'}
+                  </div>
                 </div>
                 <div className="mb-2">
-                  <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }} className='mb-1'>Indeed URL</div>
-                  <div style={{ color: '#FFF', fontSize: '5px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal' }} >www.indeed.com/bobbrains</div>
+                  <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }} className='mb-1'>{formData.personalInfo.indeed ? 'Indeed URL' : '\u00A0'}</div>
+                  <div style={{ color: '#FFF', fontSize: '5px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal' }}>
+                    {formData.personalInfo.indeed || '\u00A0'}
+                  </div>
                 </div>
                 <div className="mb-2">
-                  <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }} className='mb-1'>Behance URL</div>
-                  <div style={{ color: '#FFF', fontSize: '5px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal' }}>www.behance.com/bobbrains16</div>
+                  <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }} className='mb-1'>{formData.personalInfo.behance ? 'Behance URL' : '\u00A0'}</div>
+                  <div style={{ color: '#FFF', fontSize: '5px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal' }}>
+                    {formData.personalInfo.behance || '\u00A0'}
+                  </div>
                 </div>
                 <div className="mb-2">
-                  <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }} className='mb-1'>Website URL</div>
-                  <div style={{ color: '#FFF', fontSize: '5px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal' }}>www.bobbrains.com</div>
+                  <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }} className='mb-1'>{formData.personalInfo.website ? 'Website URL' : '\u00A0'}</div>
+                  <div style={{ color: '#FFF', fontSize: '5px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal' }}>
+                    {formData.personalInfo.website || '\u00A0'}
+                  </div>
                 </div>
               </div>
             </div>
@@ -240,7 +292,7 @@ export const TemplateSelector: React.FC = () => {
                     fontWeight: 700,
                     lineHeight: 'normal',
                   }}>
-                    Bob Brains
+                    {formData.personalInfo.name || '\u00A0'}
                   </div>
                   <div style={{
                     color: '#333',
@@ -250,12 +302,12 @@ export const TemplateSelector: React.FC = () => {
                     fontWeight: 400,
                     lineHeight: 'normal',
                   }}>
-                    UI/UX Designer
+                    {formData.personalInfo.job || '\u00A0'}
                   </div>
                 </div>
 
 
-              <div className="p-8 mt-14 space-y-6">
+              <div className="p-8 mt-[54px] space-y-4">
              
               <div>
                   <div className="flex items-center gap-1 text-xs mb-1">
@@ -276,8 +328,15 @@ export const TemplateSelector: React.FC = () => {
                     fontStyle: 'normal',
                     fontWeight: 400,
                     lineHeight: 'normal',
+                    minHeight: '12px',
                   }}>
-                    Creative and detail-oriented product designer passionate about crafting user-centered digital experiences that blend functionality with aesthetics.
+                    {formData.aboutMe
+                      ? formData.aboutMe
+                      : <>
+                          <div>{'\u00A0'}</div>
+                          <div>{'\u00A0'}</div>
+                          <div>{'\u00A0'}</div>
+                        </>}
                   </div>
                 </div>
                 {/* Work Experience */}
@@ -294,74 +353,55 @@ export const TemplateSelector: React.FC = () => {
                       lineHeight: 'normal',
                     }}>Work Experience</span>
                   </div>
-                  <div >
-                    <div className="flex justify-between">
-                      <h3 style={{
-                        color: '#333',
-                        fontSize: '7px',
-                        fontStyle: 'normal',
-                        fontWeight: 700,
-                        lineHeight: 'normal',
-                      }}>UI/UX Designer</h3>
-                      <h3 style={{
-                        color: '#333',
-                        fontSize: '6px',
-                        fontStyle: 'normal',
-                        fontWeight: 700,
-                        lineHeight: 'normal',
-                      }}>12/10/2018 - 12/10/2020</h3>
-                    </div>
-                    <p style={{
-                      color: '#333',
-                      fontSize: '6px',
-                      fontStyle: 'normal',
-                      fontWeight: 400,
-                      lineHeight: 'normal',
-                    }}>Manager</p>
-                    <p style={{
-                      color: 'rgba(15, 19, 36, 0.60)',
-                      fontSize: '6px',
-                      fontStyle: 'normal',
-                      fontWeight: 400,
-                      lineHeight: 'normal',
-                    }}>Associate manager</p>
-                  </div>
-
-                    <div>
-                    <div className="flex justify-between mt-2 items-center">
-                      <div className="flex flex-col">
-                        <h3 style={{
-                          color: '#333',
-                          fontSize: '7px',
-                          fontStyle: 'normal',
-                          fontWeight: 700,
-                          lineHeight: 'normal',
-                        }}>Graphic Designer</h3>
-                        <p style={{
-                          color: '#333',
-                          fontSize: '6px',
-                          fontStyle: 'normal',
-                          fontWeight: 400,
-                          lineHeight: 'normal',
-                        }}>Creative Market / Chicago</p>
-                        <p style={{
-                          color: '#333',
-                          fontSize: '6px',
-                          fontStyle: 'normal',
-                          fontWeight: 400,
-                          lineHeight: 'normal',
-                        }}>Manager</p>
+                  {formData.workExperience.length > 0 ? (
+                    formData.workExperience.slice(0, 2).map((work, index) => (
+                      <div key={index} className={index > 0 ? 'mt-2' : ''}>
+                        <div className="flex justify-between items-center">
+                          <div className="flex flex-col">
+                            <h3 style={{
+                              color: '#333',
+                              fontSize: '7px',
+                              fontStyle: 'normal',
+                              fontWeight: 700,
+                              lineHeight: 'normal',
+                            }}>{work.jobTitle}</h3>
+                            <p style={{
+                              color: '#333',
+                              fontSize: '6px',
+                              fontStyle: 'normal',
+                              fontWeight: 400,
+                              lineHeight: 'normal',
+                            }}>{work.company}</p>
+                            <p style={{
+                              color: '#333',
+                              fontSize: '6px',
+                              fontStyle: 'normal',
+                              fontWeight: 400,
+                              lineHeight: 'normal',
+                            }}>{work.designation}</p>
+                          </div>
+                          <h3 style={{
+                            color: '#333',
+                            textAlign: 'right',
+                            fontSize: '6px',
+                            fontStyle: 'normal',
+                            fontWeight: 700,
+                            lineHeight: 'normal',
+                          }}>{work.from} - {work.onwards ? 'Present' : work.to}</h3>
+                        </div>
                       </div>
-                      <h3 style={{
-                        color: '#333',
-                        textAlign: 'right',
-                        fontSize: '6px',
-                        fontStyle: 'normal',
-                        fontWeight: 700,
-                        lineHeight: 'normal',
-                      }}>12/10/2020 - 12/10/2024</h3>
+                    ))
+                  ) : (
+                    <div >
+                      <div style={{ color: '#333', fontSize: '7px', opacity: 0.1 }}>{'\u00A0'}</div>
+                      <div style={{ color: '#333', fontSize: '5.5px', opacity: 0.1 }}>{'\u00A0'}</div>
+                      <div style={{ color: '#333', fontSize: '6px', opacity: 0.1 , marginTop: '8px'}}>{'\u00A0'}</div>
+                      <div style={{ color: '#333', fontSize: '7px', opacity: 0.1 }}>{'\u00A0'}</div>
+                        <div style={{ color: '#333', fontSize: '5.5px', opacity: 0.1 , marginTop: '8px'}}>{'\u00A0'}</div>
+                      <div style={{ color: '#333', fontSize: '6px', opacity: 0.1 }}>{'\u00A0'}</div>
+                      
                     </div>
-                    </div>
+                  )}
                 </div>
                 {/* Education */}
                 <div>
@@ -377,65 +417,47 @@ export const TemplateSelector: React.FC = () => {
                       lineHeight: 'normal',
                     }}>Education</span>
                   </div>
-                  <div >
-                    <div className='flex justify-between items-center'>
-                      <div className="flex flex-col ">
+                  {formData.education.length > 0 ? (
+                    formData.education.slice(0, 2).map((edu, index) => (
+                      <div key={index} className={`flex justify-between items-center ${index > 0 ? 'mt-2' : ''}`}>
+                        <div className="flex flex-col">
+                          <h3 style={{
+                            color: '#333',
+                            fontSize: '7px',
+                            fontStyle: 'normal',
+                            fontWeight: 700,
+                            lineHeight: 'normal',
+                          }}>{edu.institution}</h3>
+                          <p style={{
+                            color: '#333',
+                            fontSize: '6px',
+                            fontStyle: 'normal',
+                            fontWeight: 400,
+                            lineHeight: 'normal',
+                          }}>{edu.degree}</p>
+                        </div>
                         <h3 style={{
                           color: '#333',
-                          fontSize: '7px',
+                          textAlign: 'right',
+                          fontSize: '6px',
                           fontStyle: 'normal',
                           fontWeight: 700,
                           lineHeight: 'normal',
-                        }}>Oxford university</h3>
-                        <p style={{
-                          color: '#333',
-                          fontSize: '6px',
-                          fontStyle: 'normal',
-                          fontWeight: 400,
-                          lineHeight: 'normal',
-                        }}>Masters - Computer science</p>
+                        }}>{edu.year}</h3>
                       </div>
-                      <h3 style={{
-                        color: '#333',
-                        textAlign: 'right',
-                        fontSize: '6px',
-                        fontStyle: 'normal',
-                        fontWeight: 700,
-                        lineHeight: 'normal',
-                      }}>2021</h3>
+                    ))
+                  ) : (
+                    <div style={{ minHeight: '40px' }}>
+                      <div style={{ color: '#333', fontSize: '7px', opacity: 0.1 }}>{'\u00A0'}</div>
+                       <div style={{ color: '#333', fontSize: '6px', opacity: 0.1 }}>{'\u00A0'}</div>
+                        <div style={{ color: '#333', fontSize: '7px', opacity: 0.1 , marginTop: '8px'}}>{'\u00A0'}</div>
+                         <div style={{ color: '#333', fontSize: '6px', opacity: 0.1 }}>{'\u00A0'}</div>
                     </div>
-                    
-                    <div className='flex justify-between items-center mt-2'>
-                      <div className="flex flex-col">
-                        <h3 style={{
-                          color: '#333',
-                          fontSize: '7px',
-                          fontStyle: 'normal',
-                          fontWeight: 700,
-                          lineHeight: 'normal',
-                        }}>Oxford university</h3>
-                        <p style={{
-                          color: '#333',
-                          fontSize: '6px',
-                          fontStyle: 'normal',
-                          fontWeight: 400,
-                          lineHeight: 'normal',
-                        }}>PHD - Computer science</p>
-                      </div>
-                      <h3 style={{
-                        color: '#333',
-                        textAlign: 'right',
-                        fontSize: '6px',
-                        fontStyle: 'normal',
-                        fontWeight: 700,
-                        lineHeight: 'normal',
-                      }}>2023</h3>
-                    </div>
-                  </div>
+                  )}
                 </div>
                 {/* Areas of expertise */}
                 <div>
-                  <div className="flex items-center gap-1 text-xs mb-1">
+                  <div className="flex items-center gap-1 text-xs">
                     <div style={{ width: '10px', height: '10px', background: '#EB632C', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <img src="/icons/areas.svg" alt="Expertise" style={{ width: '6px', height: '6px', display: 'block' }} />
                     </div>
@@ -453,7 +475,10 @@ export const TemplateSelector: React.FC = () => {
                     fontStyle: 'normal',
                     fontWeight: 400,
                     lineHeight: 'normal',
-                  }}>Expert in crafting user-centered digital experiences that combine aesthetics with functionality. Skilled in UX/UI design, prototyping, and design strategy to deliver impactful and seamless products.</div>
+                    minHeight: '30px',
+                  }}>
+                    {formData.areasOfExpertise || '\u00A0'}
+                  </div>
                 </div>
                 {/* Language */}
                 <div>
@@ -469,40 +494,34 @@ export const TemplateSelector: React.FC = () => {
                       lineHeight: 'normal',
                     }}>Language</span>
                   </div>
-                    <div>
-                    <div className="flex flex-col">
-                      <h3 style={{
-                        color: '#333',
-                        fontSize: '7px',
-                        fontStyle: 'normal',
-                        fontWeight: 700,
-                        lineHeight: 'normal',
-                      }}>English</h3>
-                      <p style={{
-                        color: '#333',
-                        fontSize: '6px',
-                        fontStyle: 'normal',
-                        fontWeight: 400,
-                        lineHeight: 'normal',
-                      }}>Fluent</p>
+                  {formData.languages.length > 0 ? (
+                    formData.languages.slice(0, 2).map((lang, index) => (
+                      <div key={index} className={`flex flex-col ${index > 0 ? 'mt-2' : ''}`}>
+                        <h3 style={{
+                          color: '#333',
+                          fontSize: '7px',
+                          fontStyle: 'normal',
+                          fontWeight: 700,
+                          lineHeight: 'normal',
+                        }}>
+                          {lang.language.charAt(0).toUpperCase() + lang.language.slice(1)}
+                        </h3>
+                        <p style={{
+                          color: '#333',
+                          fontSize: '6px',
+                          fontStyle: 'normal',
+                          fontWeight: 400,
+                          lineHeight: 'normal',
+                        }}>
+                          {lang.proficiency.charAt(0).toUpperCase() + lang.proficiency.slice(1)}
+                        </p>
+                      </div>
+                    ))
+                  ) : (
+                    <div style={{ minHeight: '35px' }}>
+                      <div style={{ color: '#333', fontSize: '7px', opacity: 0.1 }}>{'\u00A0'}</div>
                     </div>
-                    <div className="flex flex-col mt-2">
-                      <h3 style={{
-                        color: '#333',
-                        fontSize: '7px',
-                        fontStyle: 'normal',
-                        fontWeight: 700,
-                        lineHeight: 'normal',
-                      }}>Spanish</h3>
-                      <p style={{
-                        color: '#333',
-                        fontSize: '6px',
-                        fontStyle: 'normal',
-                        fontWeight: 400,
-                        lineHeight: 'normal',
-                      }}>Excellent</p>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
