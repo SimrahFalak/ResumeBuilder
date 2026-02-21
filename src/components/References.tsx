@@ -8,7 +8,7 @@ interface ReferencesProps {
 }
 
 export const References: React.FC<ReferencesProps> = ({ onNext }) => {
-  const { formData, updateReferences } = useFormContext();
+  const { formData, updateReferences, commitToPreview } = useFormContext();
   const [nextId, setNextId] = React.useState(formData.references.length > 0 ? formData.references.length : 1);
   const [referencesList, setReferencesList] = React.useState(
     formData.references.length > 0
@@ -166,9 +166,22 @@ export const References: React.FC<ReferencesProps> = ({ onNext }) => {
               letterSpacing: '-0.07px',
               boxShadow: '0 1px 2px 0 rgba(20, 21, 26, 0.05)',
               borderRadius: 12,
+              cursor: 'pointer',
             }}
             disabled={!allFilled}
-            onClick={onNext}
+            onClick={() => {
+              // Ensure context is updated with current state before committing
+              const mappedData = referencesList.map(r => ({
+                id: r.id,
+                name: r.name,
+                position: r.title,
+                phone: r.phone,
+                email: r.email
+              }));
+              updateReferences(mappedData);
+              commitToPreview('references');
+              onNext();
+            }}
           >
             Save
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" style={{ marginLeft: 6 }}>

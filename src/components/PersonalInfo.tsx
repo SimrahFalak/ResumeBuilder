@@ -8,7 +8,7 @@ interface PersonalInfoProps {
 }
 
 export const PersonalInfo: React.FC<PersonalInfoProps> = ({ onNext }) => {
-  const { formData, updatePersonalInfo } = useFormContext();
+  const { formData, updatePersonalInfo, commitToPreview } = useFormContext();
   
   // State for all fields
   const [fields, setFields] = useState({
@@ -234,9 +234,15 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ onNext }) => {
             letterSpacing: '-0.07px',
             boxShadow: '0 1px 2px 0 rgba(20, 21, 26, 0.05)',
             borderRadius: 12,
+            cursor: 'pointer',
           }}
           disabled={!allFilled}
-          onClick={onNext}
+          onClick={() => {
+            // Ensure context is updated with current state before committing
+            updatePersonalInfo({ ...fields, photo });
+            commitToPreview('personalInfo');
+            onNext();
+          }}
         >
           Next
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" style={{ marginLeft: 6 }}>

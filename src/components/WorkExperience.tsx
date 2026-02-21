@@ -10,7 +10,7 @@ interface WorkExperienceProps {
 }
 
 export const WorkExperience: React.FC<WorkExperienceProps> = ({ onNext }) => {
-  const { formData, updateWorkExperience } = useFormContext();
+  const { formData, updateWorkExperience, commitToPreview } = useFormContext();
   const [nextId, setNextId] = React.useState(formData.workExperience.length > 0 ? formData.workExperience.length : 1);
   const [workList, setWorkList] = React.useState(
     formData.workExperience.length > 0 
@@ -174,9 +174,15 @@ export const WorkExperience: React.FC<WorkExperienceProps> = ({ onNext }) => {
               letterSpacing: '-0.07px',
               boxShadow: '0 1px 2px 0 rgba(20, 21, 26, 0.05)',
               borderRadius: 12,
+              cursor: 'pointer',
             }}
             disabled={!allFilled}
-            onClick={onNext}
+            onClick={() => {
+              // Ensure context is updated with current state before committing
+              updateWorkExperience(workList);
+              commitToPreview('workExperience');
+              onNext();
+            }}
           >
             Next
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" style={{ marginLeft: 6 }}>

@@ -57,6 +57,7 @@ export interface FormData {
 
 interface FormContextType {
   formData: FormData;
+  previewData: FormData;
   updatePersonalInfo: (data: Partial<PersonalInfoData>) => void;
   updateAboutMe: (text: string) => void;
   updateWorkExperience: (data: WorkExperienceEntry[]) => void;
@@ -64,6 +65,7 @@ interface FormContextType {
   updateAreasOfExpertise: (text: string) => void;
   updateLanguages: (data: LanguageEntry[]) => void;
   updateReferences: (data: ReferenceEntry[]) => void;
+  commitToPreview: (section: keyof FormData) => void;
 }
 
 const FormContext = createContext<FormContextType | undefined>(undefined);
@@ -91,6 +93,7 @@ const initialFormData: FormData = {
 
 export const FormProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [previewData, setPreviewData] = useState<FormData>(initialFormData);
 
   const updatePersonalInfo = (data: Partial<PersonalInfoData>) => {
     setFormData(prev => ({
@@ -123,10 +126,18 @@ export const FormProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setFormData(prev => ({ ...prev, references: data }));
   };
 
+  const commitToPreview = (section: keyof FormData) => {
+    setPreviewData(prev => ({
+      ...prev,
+      [section]: formData[section],
+    }));
+  };
+
   return (
     <FormContext.Provider
       value={{
         formData,
+        previewData,
         updatePersonalInfo,
         updateAboutMe,
         updateWorkExperience,
@@ -134,6 +145,7 @@ export const FormProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         updateAreasOfExpertise,
         updateLanguages,
         updateReferences,
+        commitToPreview,
       }}
     >
       {children}

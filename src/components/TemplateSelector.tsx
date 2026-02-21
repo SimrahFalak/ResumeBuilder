@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormContext } from '../contexts/FormContext';
 
 export const TemplateSelector: React.FC = () => {
-  const { formData } = useFormContext();
+  const { previewData } = useFormContext();
   return (
     <div
       className="flex flex-col items-start m-5"
@@ -64,9 +64,9 @@ export const TemplateSelector: React.FC = () => {
                       <path fillRule="evenodd" clipRule="evenodd" d="M39.1877 1.42499C60.043 1.42499 76.9497 18.3315 76.9497 39.1869C76.9497 60.0424 60.043 76.9489 39.1877 76.9489H1.42578V39.1869C1.42578 18.3315 18.3324 1.42499 39.1877 1.42499Z" />
                     </clipPath>
                   </defs>
-                  {formData.personalInfo.photo ? (
+                  {previewData.personalInfo.photo ? (
                     <image 
-                      href={formData.personalInfo.photo}
+                      href={previewData.personalInfo.photo}
                       x="0" 
                       y="0" 
                       width="79" 
@@ -111,32 +111,32 @@ export const TemplateSelector: React.FC = () => {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center',  marginBottom: '8px' }}>
                   <span style={{
-                    width: '12px', height: '12px', background: formData.personalInfo.phone ? '#FFF' : 'transparent', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '8px', flexShrink: 0
+                    width: '12px', height: '12px', background: previewData.personalInfo.phone ? '#FFF' : 'transparent', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '8px', flexShrink: 0
                   }}>
-                    {formData.personalInfo.phone && <img src="/icons/phone.svg" alt="Phone" style={{ width: '8px', height: '8px', display: 'block' }} />}
+                    {previewData.personalInfo.phone && <img src="/icons/phone.svg" alt="Phone" style={{ width: '8px', height: '8px', display: 'block' }} />}
                   </span>
                   <span style={{ color: '#FFF', fontSize: '6px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal', fontFamily: 'inherit' }}>
-                    {formData.personalInfo.phone || '\u00A0'}
+                    {previewData.personalInfo.phone || '\u00A0'}
                   </span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
                   <span style={{
-                    width: '12px', height: '12px', background: formData.personalInfo.email ? '#FFF' : 'transparent', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '8px', flexShrink: 0
+                    width: '12px', height: '12px', background: previewData.personalInfo.email ? '#FFF' : 'transparent', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '8px', flexShrink: 0
                   }}>
-                    {formData.personalInfo.email && <img src="/icons/web.svg" alt="Website" style={{ width: '8px', height: '8px', display: 'block' }} />}
+                    {previewData.personalInfo.email && <img src="/icons/web.svg" alt="Website" style={{ width: '8px', height: '8px', display: 'block' }} />}
                   </span>
                   <span style={{ color: '#FFF', fontSize: '6px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal', fontFamily: 'inherit' }}>
-                    {formData.personalInfo.email || '\u00A0'}
+                    {previewData.personalInfo.email || '\u00A0'}
                   </span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center',  marginBottom: '8px' }}>
                   <span style={{
-                    width: '12px', height: '12px', background: formData.personalInfo.address ? '#FFF' : 'transparent', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '8px', flexShrink: 0
+                    width: '12px', height: '12px', background: previewData.personalInfo.address ? '#FFF' : 'transparent', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '8px', flexShrink: 0
                   }}>
-                    {formData.personalInfo.address && <img src="/icons/location.svg" alt="Address" style={{ width: '8px', height: '8px', display: 'block' }} />}
+                    {previewData.personalInfo.address && <img src="/icons/location.svg" alt="Address" style={{ width: '8px', height: '8px', display: 'block' }} />}
                   </span>
                   <span style={{ color: '#FFF', fontSize: '6px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal', fontFamily: 'inherit' }}>
-                    {formData.personalInfo.address || '\u00A0'}
+                    {previewData.personalInfo.address || '\u00A0'}
                   </span>
                 </div>
 
@@ -171,8 +171,8 @@ export const TemplateSelector: React.FC = () => {
                 </div>
 
                 {/* Reference List */}
-                {formData.references.length > 0 ? (
-                  formData.references.slice(0, 2).map((ref, index) => (
+                {previewData.references.length > 0 ? (
+                  previewData.references.slice(0, 2).map((ref, index) => (
                     <div key={index} className="mb-2">
                       <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }}>
                         {ref.name || '\u00A0'} {ref.position && <span style={{ color: ' rgba(255, 255, 255, 0.50)', fontWeight: 400 }}>({ref.position})</span>}
@@ -240,27 +240,27 @@ export const TemplateSelector: React.FC = () => {
                   </span>
                 </div>
                 <div className="mb-2">
-                  <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }} className='mb-1'>{formData.personalInfo.linkedin ? 'LinkedIn URL' : '\u00A0'}</div>
+                  <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }} className='mb-1'>{previewData.personalInfo.linkedin ? 'LinkedIn URL' : '\u00A0'}</div>
                   <div style={{ color: '#FFF', fontSize: '5px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal' }}>
-                    {formData.personalInfo.linkedin || '\u00A0'}
+                    {previewData.personalInfo.linkedin || '\u00A0'}
                   </div>
                 </div>
                 <div className="mb-2">
-                  <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }} className='mb-1'>{formData.personalInfo.indeed ? 'Indeed URL' : '\u00A0'}</div>
+                  <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }} className='mb-1'>{previewData.personalInfo.indeed ? 'Indeed URL' : '\u00A0'}</div>
                   <div style={{ color: '#FFF', fontSize: '5px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal' }}>
-                    {formData.personalInfo.indeed || '\u00A0'}
+                    {previewData.personalInfo.indeed || '\u00A0'}
                   </div>
                 </div>
                 <div className="mb-2">
-                  <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }} className='mb-1'>{formData.personalInfo.behance ? 'Behance URL' : '\u00A0'}</div>
+                  <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }} className='mb-1'>{previewData.personalInfo.behance ? 'Behance URL' : '\u00A0'}</div>
                   <div style={{ color: '#FFF', fontSize: '5px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal' }}>
-                    {formData.personalInfo.behance || '\u00A0'}
+                    {previewData.personalInfo.behance || '\u00A0'}
                   </div>
                 </div>
                 <div className="mb-2">
-                  <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }} className='mb-1'>{formData.personalInfo.website ? 'Website URL' : '\u00A0'}</div>
+                  <div style={{ color: '#FFF', fontSize: '7px', fontStyle: 'normal', fontWeight: 700, lineHeight: 'normal' }} className='mb-1'>{previewData.personalInfo.website ? 'Website URL' : '\u00A0'}</div>
                   <div style={{ color: '#FFF', fontSize: '5px', fontStyle: 'normal', fontWeight: 400, lineHeight: 'normal' }}>
-                    {formData.personalInfo.website || '\u00A0'}
+                    {previewData.personalInfo.website || '\u00A0'}
                   </div>
                 </div>
               </div>
@@ -292,7 +292,7 @@ export const TemplateSelector: React.FC = () => {
                     fontWeight: 700,
                     lineHeight: 'normal',
                   }}>
-                    {formData.personalInfo.name || '\u00A0'}
+                    {previewData.personalInfo.name || '\u00A0'}
                   </div>
                   <div style={{
                     color: '#333',
@@ -302,7 +302,7 @@ export const TemplateSelector: React.FC = () => {
                     fontWeight: 400,
                     lineHeight: 'normal',
                   }}>
-                    {formData.personalInfo.job || '\u00A0'}
+                    {previewData.personalInfo.job || '\u00A0'}
                   </div>
                 </div>
 
@@ -330,8 +330,8 @@ export const TemplateSelector: React.FC = () => {
                     lineHeight: 'normal',
                     minHeight: '12px',
                   }}>
-                    {formData.aboutMe
-                      ? formData.aboutMe
+                    {previewData.aboutMe
+                      ? previewData.aboutMe
                       : <>
                           <div>{'\u00A0'}</div>
                           <div>{'\u00A0'}</div>
@@ -353,8 +353,8 @@ export const TemplateSelector: React.FC = () => {
                       lineHeight: 'normal',
                     }}>Work Experience</span>
                   </div>
-                  {formData.workExperience.length > 0 ? (
-                    formData.workExperience.slice(0, 2).map((work, index) => (
+                  {previewData.workExperience.length > 0 ? (
+                    previewData.workExperience.slice(0, 2).map((work, index) => (
                       <div key={index} className={index > 0 ? 'mt-2' : ''}>
                         <div className="flex justify-between items-center">
                           <div className="flex flex-col">
@@ -417,9 +417,9 @@ export const TemplateSelector: React.FC = () => {
                       lineHeight: 'normal',
                     }}>Education</span>
                   </div>
-                  {formData.education.length > 0 ? (
-                    formData.education.slice(0, 2).map((edu, index) => (
-                      <div key={index} className={`flex justify-between items-center ${index > 0 ? 'mt-2' : ''}`}>
+                  {previewData.education.length > 0 ? (
+                    previewData.education.slice(0, 2).map((edu, index) => (
+                      <div key={index} className={`flex justify-between items-center ${index > 0 ? 'mt-[10px]' : ''}`}>
                         <div className="flex flex-col">
                           <h3 style={{
                             color: '#333',
@@ -457,7 +457,7 @@ export const TemplateSelector: React.FC = () => {
                 </div>
                 {/* Areas of expertise */}
                 <div>
-                  <div className="flex items-center gap-1 text-xs">
+                  <div className="flex items-center gap-1 text-xs ">
                     <div style={{ width: '10px', height: '10px', background: '#EB632C', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <img src="/icons/areas.svg" alt="Expertise" style={{ width: '6px', height: '6px', display: 'block' }} />
                     </div>
@@ -475,9 +475,10 @@ export const TemplateSelector: React.FC = () => {
                     fontStyle: 'normal',
                     fontWeight: 400,
                     lineHeight: 'normal',
-                    minHeight: '30px',
+                    marginTop: '8px',
+                    minHeight: '20px',
                   }}>
-                    {formData.areasOfExpertise || '\u00A0'}
+                    {previewData.areasOfExpertise || '\u00A0'}
                   </div>
                 </div>
                 {/* Language */}
@@ -494,8 +495,8 @@ export const TemplateSelector: React.FC = () => {
                       lineHeight: 'normal',
                     }}>Language</span>
                   </div>
-                  {formData.languages.length > 0 ? (
-                    formData.languages.slice(0, 2).map((lang, index) => (
+                  {previewData.languages.length > 0 ? (
+                    previewData.languages.slice(0, 2).map((lang, index) => (
                       <div key={index} className={`flex flex-col ${index > 0 ? 'mt-2' : ''}`}>
                         <h3 style={{
                           color: '#333',

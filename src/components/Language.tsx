@@ -9,7 +9,7 @@ interface LanguageProps {
 }
 
 export const Language: React.FC<LanguageProps> = ({ onNext }) => {
-  const { formData, updateLanguages } = useFormContext();
+  const { formData, updateLanguages, commitToPreview } = useFormContext();
   const languageOptions = [
     { value: 'english', label: 'English' },
     { value: 'spanish', label: 'Spanish' },
@@ -160,9 +160,15 @@ export const Language: React.FC<LanguageProps> = ({ onNext }) => {
               letterSpacing: '-0.07px',
               boxShadow: '0 1px 2px 0 rgba(20, 21, 26, 0.05)',
               borderRadius: 12,
+              cursor: 'pointer',
             }}
             disabled={!allFilled}
-            onClick={onNext}
+            onClick={() => {
+              // Ensure context is updated with current state before committing
+              updateLanguages(languageList);
+              commitToPreview('languages');
+              onNext();
+            }}
           >
             Next
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" style={{ marginLeft: 6 }}>

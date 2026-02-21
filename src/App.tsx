@@ -37,21 +37,21 @@ function App() {
   const renderSection = () => {
     switch (activeSection) {
       case 'personal-info':
-        return <PersonalInfo onNext={goToNextSection} />;
+        return <PersonalInfo key={activeSection} onNext={goToNextSection} />;
       case 'about-me':
-        return <AboutMe onNext={goToNextSection} />;
+        return <AboutMe key={activeSection} onNext={goToNextSection} />;
       case 'education':
-        return <Education onNext={goToNextSection} />;
+        return <Education key={activeSection} onNext={goToNextSection} />;
       case 'language':
-        return <Language onNext={goToNextSection} />;
+        return <Language key={activeSection} onNext={goToNextSection} />;
       case 'work-experience':
-        return <WorkExperience onNext={goToNextSection} />;
+        return <WorkExperience key={activeSection} onNext={goToNextSection} />;
       case 'areas-of-expertise':
-        return <AreasOfExpertise onNext={goToNextSection} />;
+        return <AreasOfExpertise key={activeSection} onNext={goToNextSection} />;
       case 'references':
-        return <References onNext={goToNextSection} />;
+        return <References key={activeSection} onNext={goToNextSection} />;
       default:
-        return <PersonalInfo onNext={goToNextSection} />;
+        return <PersonalInfo key={activeSection} onNext={goToNextSection} />;
     }
   };
 
